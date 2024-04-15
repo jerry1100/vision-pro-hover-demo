@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: auto;
+      width: clamp(300px, 80%, 700px);
+    }
+
+    .cell-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1px;
+    }
+
+    .cell {
+      height: 40px;
+      width: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>Question</h2>
+  <p>
+    Apple says the Vision Pro keeps eye tracking information on-device and thus
+    private. However, when you use Safari in the Vision Pro, you notice hover
+    effects on buttons when you look at them.
+  </p>
+  <p>
+    Are these triggering :hover events and thus can be tracked? Or is the Vision
+    Pro highlighting the buttons itself? If the latter, how does it handle
+    different colors? Let's find out in this demo.
+  </p>
+
+  <h2>Demo</h2>
+  <p>
+    Below we have a grid of cells with varying colors. When you hover over or
+    click a cell, it will change colors. The changing of colors is done via
+    JavaScript and thus means that action is trackable.
+  </p>
+  <div class="cell-grid"></div>
+  <script>
+    const grid = document.querySelector('.cell-grid');
+    const steps = 256;
+
+    // Generate cells, gradually from black to white
+    for (let i = 0; i < steps; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.style.backgroundColor = `hsl(0, 0%, ${(i / steps) * 100}%)`;
+      grid.appendChild(cell);
+    }
+
+    // Change cell color on hover and click
+    grid.addEventListener('mouseover', randomizeCellColor);
+    grid.addEventListener('click', randomizeCellColor);
+
+    function randomizeCellColor(event) {
+      if (event.target.classList.contains('cell')) {
+        event.target.style.backgroundColor = `hsl(${
+          Math.random() * 360
+        }, 100%, 50%)`;
+      }
+    }
+  </script>
+</body>
